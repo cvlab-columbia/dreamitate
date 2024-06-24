@@ -8,7 +8,7 @@
 *Equal Contribution
 
 <p align="center">
-  <img width="100%" src="assets/teaser.gif">
+  <img width="100%" src="assets/teaser_compressed.gif">
 </p>
 
 ### Bibtex
