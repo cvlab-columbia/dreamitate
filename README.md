@@ -13,11 +13,11 @@
 
 ### Bibtex
 
-    @misc{liu2024paperbot,
-          title={PaperBot: Learning to Design Real-World Tools Using Paper}, 
-          author={Ruoshi Liu and Junbang Liang and Sruthi Sudhakar and Huy Ha and Cheng Chi and Shuran Song and Carl Vondrick},
-          year={2024},
-          eprint={2403.09566},
-          archivePrefix={arXiv},
-          primaryClass={cs.RO}
-    }
+  @misc{liang2024dreamitate,
+        title={Dreamitate: Real-World Visuomotor Policy Learning via Video Generation}, 
+        author={Junbang Liang and Ruoshi Liu and Ege Ozguroglu and Sruthi Sudhakar and Achal Dave and Pavel Tokmakov and Shuran Song and Carl Vondrick},
+        year={2024},
+        eprint={2406.16862},
+        archivePrefix={arXiv},
+        primaryClass={id='cs.RO' full_name='Robotics' is_active=True alt_name=None in_archive='cs' is_general=False description='Roughly includes material in ACM Subject Class I.2.9.'}
+  }
