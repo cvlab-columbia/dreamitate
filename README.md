@@ -7,11 +7,9 @@
 <sup>1</sup>Columbia University, <sup>2</sup>Toyota Research Institute, <sup>3</sup>Stanford University  
 *Equal Contribution
 
-<video width="100%" loop autoplay muted>
-  <source src="assets/animation_v4.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
+<p align="center">
+  <img width="100%" src="assets/animation_v4.gif">
+</p>
 
 ## Updates
 
