@@ -11,115 +11,78 @@
   <img width="100%" src="assets/animation_v4.gif">
 </p>
 
-## Updates
-
-- [Zero123-XL](https://zero123.cs.columbia.edu/assets/zero123-xl.ckpt) and [Objaverse-XL](https://github.com/allenai/objaverse-xl) released!
-- Checkout the [amazing image-to-3D results](https://github.com/threestudio-project/threestudio#zero-1-to-3-) at Threestudio developed by Stability AI!
-- [Threestudio](https://github.com/threestudio-project/threestudio#zero-1-to-3-) has recently implemented single-view 3D reconstruction with zero123!  
-- [Stable-Dreamfusion](https://github.com/ashawkey/stable-dreamfusion) has recently implemented 3D reconstruction with zero123 using Instant-NGP and SDS loss from DreamFusion!
-- We have released [training script](https://github.com/cvlab-columbia/zero123#training-script-preliminary) and [objaverse renderings](https://github.com/cvlab-columbia/zero123#dataset-objaverse-renderings).  
-- Live demo released 🤗: https://huggingface.co/spaces/cvlab/zero123-live. Shout out to Huggingface for funding this demo!!  
-- We've optimized our code base with some simple tricks and the current demo runs at around 22GB VRAM so it's runnable on a RTX 3090/4090(Ti)!  
-
 ##  Usage
-###  Novel View Synthesis
+###  Gradio Demo Inference
 ```
-conda create -n zero123 python=3.9
-conda activate zero123
-cd zero123
+conda create -n dreamitate python=3.10
+conda activate dreamitate
+cd dreamitate
 pip install -r requirements.txt
-git clone https://github.com/CompVis/taming-transformers.git
-pip install -e taming-transformers/
-git clone https://github.com/openai/CLIP.git
-pip install -e CLIP/
+cd video_model
+pip3 install .
+pip3 install -e git+https://github.com/Stability-AI/datapipelines.git@main#egg=sdata
 ```
 
-Download checkpoint under `zero123` through one of the following sources:
-
+Download image-conditioned stable video diffusion checkpoint released by [Stability AI](https://huggingface.co/stabilityai/stable-video-diffusion-img2vid-xt) and move `checkpoints` under the `video_model` folder:
 ```
-https://huggingface.co/cvlab/zero123-weights/tree/main
-wget https://cv.cs.columbia.edu/zero123/assets/$iteration.ckpt    # iteration = [105000, 165000, 230000, 300000]
-```
-Note that we have released 4 model weights: 105000.ckpt, 165000.ckpt, 230000.ckpt, 300000.ckpt. By default, we use 105000.ckpt which is the checkpoint after finetuning 105000 iterations on objaverse. Naturally, checkpoints trained longer tend to overfit to training data and suffer in zero-shot generalization, though we didn't empirically verify this. 300000.ckpt is trained for around 6000 A100 hours.
-
-Run our gradio demo for novel view synthesis:
-
-```
-python gradio_new.py
+wget https://dreamitate.cs.columbia.edu/assets/models/checkpoints.zip
 ```
 
-Note that this app uses around 22 GB of VRAM, so it may not be possible to run it on any GPU.
+Download the finetuned rotation task checkpoint and move `finetuned_models` under the `video_model` folder:
 
-### Training Script (preliminary)
+```
+wget https://dreamitate.cs.columbia.edu/assets/models/finetuned_models.zip
+```
 
-Download image-conditioned stable diffusion checkpoint released by [Lambda Labs](https://huggingface.co/spaces/lambdalabs/stable-diffusion-image-variations):  
-`wget https://cv.cs.columbia.edu/zero123/assets/sd-image-conditioned-v2.ckpt`
+Run our gradio demo to generate videos of object rotation:
 
-Download and unzip `valid_paths.json.zip` and move the `valid_paths.json` file under the `view_release` folder.
+```
+CUDA_VISIBLE_DEVICES=0 PYTHONPATH=. python scripts/sampling/simple_video_sample_gradio.py
+```
+
+Note that this app uses around 70 GB of VRAM, so it may not be possible to run it on any GPU.
+
+### Training Script
+
+Download image-conditioned stable video diffusion checkpoint released by [Stability AI](https://huggingface.co/stabilityai/stable-video-diffusion-img2vid-xt) and move `checkpoints` under the `video_model` folder:
+```
+wget https://dreamitate.cs.columbia.edu/assets/models/checkpoints.zip
+```
+
+Download the rotation task dataset and move `dataset` under the `video_model` folder:
+```
+wget https://dreamitate.cs.columbia.edu/assets/models/dataset.zip
+```
 
 Run training command:  
 ```
-python main.py \
-    -t \
-    --base configs/sd-objaverse-finetune-c_concat-256.yaml \
-    --gpus 0,1,2,3,4,5,6,7 \
-    --scale_lr False \
-    --num_nodes 1 \
-    --seed 42 \
-    --check_val_every_n_epoch 10 \
-    --finetune_from sd-image-conditioned-v2.ckpt
+PYTHONPATH=. CUDA_VISIBLE_DEVICES=0,1,2,3 python main.py --base=configs/basile_svd_finetune.yaml --name=ft1 --seed=24 --num_nodes=1 --wandb=0 lightning.trainer.devices="0,1,2,3"
 ```
 
-Note that this training script is set for an 8-GPU system, each with 80GB of VRAM. As discussed in the paper, empirically the large batch size is very important for "stably" training stable diffusion. If you have smaller GPUs, consider using smaller batch size and gradient accumulation to obtain a similar effective batch size. Please check [this thread](https://github.com/cvlab-columbia/zero123/issues/22#issuecomment-1493492145) for the train/val split we used in the paper.
+Note that this training script is set for an 4-GPU system, each with 80GB of VRAM. Empirically a batch size of 4 is found to produce good results for training our model, but training with a batch size of 1 can work as well.
 
-### Dataset (Objaverse Renderings)
+### Tool tracking
 
-Download our objaverse renderings with:
+Download the pretrained models and move `megapose-models` under the `megapose/examples` folder:
 ```
-wget https://tri-ml-public.s3.amazonaws.com/datasets/views_release.tar.gz
+wget https://dreamitate.cs.columbia.edu/assets/models/megapose-models.zip
 ```
-Disclaimer: note that the renderings are generated with Objaverse. The renderings as a whole are released under the ODC-By 1.0 license. The licenses for the renderings of individual objects are released under the same license creative commons that they are in Objaverse.
 
-### 3D Reconstruction (SDS)
-Check out [Stable-Dreamfusion](https://github.com/ashawkey/stable-dreamfusion)
-
-### 3D Reconstruction (SJC)
-Note that we haven't extensively tuned the hyperparameters for 3D recosntruction. Feel free to explore and play around!
+Set environment variables:
 ```
-cd 3drec
-pip install -r requirements.txt
-python run_zero123.py \
-    --scene pikachu \
-    --index 0 \
-    --n_steps 10000 \
-    --lr 0.05 \
-    --sd.scale 100.0 \
-    --emptiness_weight 0 \
-    --depth_smooth_weight 10000. \
-    --near_view_weight 10000. \
-    --train_view True \
-    --prefix "experiments/exp_wild" \
-    --vox.blend_bg_texture False \
-    --nerf_path "data/nerf_wild"
+cd dreamitate/megapose
+conda activate dreamitate && export MEGAPOSE_DIR=$(pwd) && export MEGAPOSE_DATA_DIR=$(pwd)/examples && export megapose_directory_path=$(pwd)/src && export PYTHONPATH="$PYTHONPATH:$megapose_directory_path"
 ```
-- You can see results under: `3drec/experiments/exp_wild/$EXP_NAME`.  
 
+Run tracking on left end-effector:  
+```
+CUDA_VISIBLE_DEVICES=0 python -m megapose.scripts.run_video_tracking_on_rotation_example_stereo_left --data_dir "experiments/rotation/demo_005"
+```
 
-- To export a mesh from the trained Voxel NeRF with marching cube, use the [`export_mesh`](https://github.com/cvlab-columbia/zero123/blob/3736c13fc832c3fc8bf015de833e9da68a397ed9/3drec/voxnerf/vox.py#L71) function. For example, add a line:
-
-    ``` vox.export_mesh($PATH_TO_EXPORT)```
-
-    under the [`evaluate`](https://github.com/cvlab-columbia/zero123/blob/3736c13fc832c3fc8bf015de833e9da68a397ed9/3drec/run_zero123.py#L304) function.  
-
-
-- The dataset is formatted in the same way as NeRF for the convenience of dataloading. In reality, the recommended input in addition to the input image is an estimate of the elevation angle of the image (e.g. if the image is taken from top, the angle is 0, front is 90, bottom is 180). This is hard-coded now to the extrinsics matrix in `transforms_train.json`
-
-- We tested the installation processes on a system with Ubuntu 20.04 with an NVIDIA GPU with Ampere architecture.
-
-### Discussion on Janus Problem
-The design of our method fundamentally alleviates the [Janus problem](https://twitter.com/poolio/status/1578045212236034048?s=20) as shown in the 3D reconstruction results above and many results in the [Stable-Dreamfusion](https://github.com/ashawkey/stable-dreamfusion) repo. By modeling camera perspective in an explicit way and training on a large-scale high-quality synthetic dataset where we can obtain ground truth for everything, the ambiguity and bias of viewpoint existing in text-to-image model is significantly alleviated.
-
-This is also related to the prompting tricks used in DreamFusion where prompts like "a back view of" is inserted at the beginning of the text prompt. Zero-1-to-3 models such change of viewpoint explicitly and finetune on Objaverse to ensure both consistency after viewpoint change and accuracy of queried viewpoint.
+Run tracking on right end-effector:  
+```
+CUDA_VISIBLE_DEVICES=0 python -m megapose.scripts.run_video_tracking_on_rotation_example_stereo_right --data_dir "experiments/rotation/demo_005"
+```
 
 ##  Acknowledgement
 This repository is based on [Stable Diffusion](https://github.com/CompVis/stable-diffusion), [Objaverse](https://objaverse.allenai.org/), and [SJC](https://github.com/pals-ttic/sjc/). We would like to thank the authors of these work for publicly releasing their code. We would like to thank the authors of [NeRDi](https://arxiv.org/abs/2212.03267) and [SJC](https://github.com/pals-ttic/sjc/) for their helpful feedback.
