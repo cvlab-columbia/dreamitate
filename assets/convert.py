@@ -9,4 +9,4 @@ modified_video = video.resize(0.5)
 
 # Convert the modified video to GIF
 gif_path = 'animation_v4.gif'
-modified_video.write_gif(gif_path, fps=20)  # Ensure GIF also uses 10 fps
+modified_video.write_gif(gif_path, fps=10)  # Ensure GIF also uses 10 fps
