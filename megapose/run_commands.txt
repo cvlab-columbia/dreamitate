@@ -1,0 +1,14 @@
+conda activate cv14v1
+export MEGAPOSE_DIR=$(pwd)
+export MEGAPOSE_DATA_DIR=$(pwd)/examples
+megapose_directory_path=$(pwd)/src
+export PYTHONPATH="$PYTHONPATH:$megapose_directory_path"
+
+conda activate cv14v1 && export MEGAPOSE_DIR=$(pwd) && export MEGAPOSE_DATA_DIR=$(pwd)/examples && export megapose_directory_path=$(pwd)/src && export PYTHONPATH="$PYTHONPATH:$megapose_directory_path"
+
+CUDA_VISIBLE_DEVICES=7 python -m megapose.scripts.run_video_tracking_on_rotation_example_stereo_left
+CUDA_VISIBLE_DEVICES=1 python -m megapose.scripts.run_video_tracking_on_rotation_example_stereo_right
+
+
+CUDA_VISIBLE_DEVICES=7 python -m megapose.scripts.run_video_tracking_on_rotation_example_stereo_left --data_dir "experiments/rotation/demo_005"
+CUDA_VISIBLE_DEVICES=7 python -m megapose.scripts.run_video_tracking_on_rotation_example_stereo_right --data_dir "experiments/rotation/demo_005"

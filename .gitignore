@@ -1,0 +1,5 @@
+megapose/examples/megapose-models
+video_model/checkpoints
+video_model/dataset
+video_model/logs
+video_model/src
