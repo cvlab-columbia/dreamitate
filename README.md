@@ -61,7 +61,7 @@ PYTHONPATH=. CUDA_VISIBLE_DEVICES=0,1,2,3 python main.py --base=configs/basile_s
 
 Note that this training script is set for an 4-GPU system, each with 80GB of VRAM. Empirically a batch size of 4 is found to produce good results for training our model, but training with a batch size of 1 can work as well.
 
-### Tool tracking
+### Tool Tracking
 
 Download the pretrained models and move `megapose-models` under the `megapose/examples` folder:
 ```
@@ -71,7 +71,7 @@ wget https://dreamitate.cs.columbia.edu/assets/models/megapose-models.zip
 Set environment variables:
 ```
 cd dreamitate/megapose
-conda activate dreamitate && export MEGAPOSE_DIR=$(pwd) && export MEGAPOSE_DATA_DIR=$(pwd)/examples && export megapose_directory_path=$(pwd)/src && export PYTHONPATH="$PYTHONPATH:$megapose_directory_path"
+export MEGAPOSE_DIR=$(pwd) && export MEGAPOSE_DATA_DIR=$(pwd)/examples && export megapose_directory_path=$(pwd)/src && export PYTHONPATH="$PYTHONPATH:$megapose_directory_path"
 ```
 
 Run tracking on left end-effector:  

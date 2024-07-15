@@ -8,7 +8,6 @@ from pytorch_lightning import LightningDataModule
 from sgm.util import append_dims
 import torch.nn.functional as F
 import glob
-import mediapy
 import numpy as np
 from tqdm import tqdm
 import cv2

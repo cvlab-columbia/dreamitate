@@ -4,8 +4,7 @@ model:
     scale_factor: 0.18215
     disable_first_stage_autocast: True
     # ckpt_path: checkpoints/svd_xt.safetensors
-    ckpt_path: pretrained_models/epoch=00066-step=00006000.ckpt
-    # ckpt_path: /proj/vondrick2/junbang/stability-gen-models-xt-stereo-2/logs/2024-03-18T22-10-31_ft1/checkpoints/trainstep_checkpoints/epoch=00176-step=00016384.ckpt
+    ckpt_path: finetuned_models/epoch=00066-step=00006000.ckpt
 
     denoiser_config:
       target: sgm.modules.diffusionmodules.denoiser.Denoiser
