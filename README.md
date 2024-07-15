@@ -84,9 +84,9 @@ CUDA_VISIBLE_DEVICES=0 python -m megapose.scripts.run_video_tracking_on_rotation
 ```
 
 ##  Acknowledgement
-This repository is based on [Stable Diffusion](https://github.com/CompVis/stable-diffusion), [Objaverse](https://objaverse.allenai.org/), and [SJC](https://github.com/pals-ttic/sjc/). We would like to thank the authors of these work for publicly releasing their code. We would like to thank the authors of [NeRDi](https://arxiv.org/abs/2212.03267) and [SJC](https://github.com/pals-ttic/sjc/) for their helpful feedback.
+This repository is based on [Stable Video Diffusion](https://github.com/Stability-AI/generative-models), [Generative Camera Dolly](https://gcd.cs.columbia.edu/), and [MegaPose](https://github.com/megapose6d/megapose6d). We would like to thank the authors of these work for publicly releasing their code. We would like to thank Basile Van Hoorick and Kyle Sargent of [Generative Camera Dolly](https://gcd.cs.columbia.edu/) for providing the video model training code and their helpful feedback.
 
-We would like to thank Changxi Zheng and Chengzhi Mao for many helpful discussions. This research is based on work partially supported by the Toyota Research Institute, the DARPA MCS program under Federal Agreement No. N660011924032, and the NSF NRI Award #1925157.
+We would like to thank Paarth Shah and Dian Chen for many helpful discussions. This research is based on work partially supported by the Toyota Research Institute and the NSF NRI Award #2132519.
 
 
 ##  Citation
