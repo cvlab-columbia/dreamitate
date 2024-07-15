@@ -19,8 +19,8 @@ conda activate dreamitate
 cd dreamitate
 pip install -r requirements.txt
 cd video_model
-pip3 install .
-pip3 install -e git+https://github.com/Stability-AI/datapipelines.git@main#egg=sdata
+pip install .
+pip install -e git+https://github.com/Stability-AI/datapipelines.git@main#egg=sdata
 ```
 
 Download image-conditioned stable video diffusion checkpoint released by [Stability AI](https://huggingface.co/stabilityai/stable-video-diffusion-img2vid-xt) and move `checkpoints` under the `video_model` folder:
@@ -34,8 +34,7 @@ Download the finetuned rotation task checkpoint and move `finetuned_models` unde
 wget https://dreamitate.cs.columbia.edu/assets/models/finetuned_models.zip
 ```
 
-Run our gradio demo to generate videos of object rotation:
-
+Run our Gradio demo to generate videos of object rotation by using experiment photos from the video_model/rotation_examples directory as model inputs. Alternatively, you can use online images of object against a black background as model inputs, which is less suitable but can work for this demonstration:
 ```
 CUDA_VISIBLE_DEVICES=0 PYTHONPATH=. python scripts/sampling/simple_video_sample_gradio.py
 ```
