@@ -34,11 +34,11 @@ Download the finetuned rotation task checkpoint and move `finetuned_models` unde
 wget https://dreamitate.cs.columbia.edu/assets/models/finetuned_models.zip
 ```
 
-Run our Gradio demo to generate videos of object rotation by using experiment photos from the video_model/rotation_examples directory as model inputs. Alternatively, you can use online images of object against a black background as model inputs, which is less suitable but can work for this demonstration:
+Run our Gradio demo to generate videos of object rotation by using experiment photos from the `video_model/rotation_examples` directory as model inputs:
 ```
 CUDA_VISIBLE_DEVICES=0 PYTHONPATH=. python scripts/sampling/simple_video_sample_gradio.py
 ```
-
+Alternatively, you can use online images of object against a black background as model inputs, which is less suitable but can work for this demonstration.
 Note that this app uses around 70 GB of VRAM, so it may not be possible to run it on any GPU.
 
 ### Training Script
