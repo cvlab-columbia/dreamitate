@@ -4,8 +4,7 @@ model:
     scale_factor: 0.18215
     disable_first_stage_autocast: True
     # ckpt_path: checkpoints/svd_xt.safetensors
-    # ckpt_path: finetuned_models/epoch=00066-step=00006000.ckpt
-    ckpt_path: logs/2024-07-14T22-13-01_ft1/checkpoints/trainstep_checkpoints/epoch=00043-step=00004000.ckpt
+    ckpt_path: finetuned_models/epoch=00172-step=00016000.ckpt
 
     denoiser_config:
       target: sgm.modules.diffusionmodules.denoiser.Denoiser

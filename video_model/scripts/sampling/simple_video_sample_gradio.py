@@ -25,12 +25,24 @@ import gradio as gr
 from functools import partial
 
 def convert_frame(frame, size=None):
-    
     if size is not None:
         original_height, original_width = frame.shape[:2]
-        new_width = int(original_height * (size[0]/size[1]))
-        crop_start = (original_width - new_width) // 2
-        cropped_image = frame[:, crop_start:crop_start + new_width]
+        target_width, target_height = size
+
+        original_aspect_ratio = original_width / original_height
+        target_aspect_ratio = target_width / target_height
+
+        if original_aspect_ratio > target_aspect_ratio:
+            # Wider than target, crop width
+            new_width = int(original_height * target_aspect_ratio)
+            crop_start = (original_width - new_width) // 2
+            cropped_image = frame[:, crop_start:crop_start + new_width]
+        else:
+            # Taller than target, crop height
+            new_height = int(original_width / target_aspect_ratio)
+            crop_start = (original_height - new_height) // 2
+            cropped_image = frame[crop_start:crop_start + new_height, :]
+
         frame = cv2.resize(cropped_image, size, interpolation=cv2.INTER_AREA)
 
     # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
